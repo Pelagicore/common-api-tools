@@ -51,6 +51,7 @@ class FrancaGenerator implements IGenerator {
     @Inject private extension FInterfaceGenerator
     @Inject private extension FInterfaceProxyGenerator
     @Inject private extension FInterfaceStubGenerator
+    @Inject private extension FInterfaceServiceAbstractGenerator
     @Inject private extension FrancaGeneratorExtensions
 
     @Inject private MyFrancaPersistenceManager francaPersistenceManager
@@ -119,7 +120,7 @@ class FrancaGenerator implements IGenerator {
         }
     }
 
-    def private doGenerateComponents(FModel fModel, List<FDInterface> deployedInterfaces, IFileSystemAccess fileSystemAccess, IResource res) {
+    def doGenerateComponents(FModel fModel, List<FDInterface> deployedInterfaces, IFileSystemAccess fileSystemAccess, IResource res) {
 
         val allReferencedFTypes = fModel.allReferencedFTypes
         val allFTypeTypeCollections = allReferencedFTypes.filter[eContainer instanceof FTypeCollection].map[
@@ -188,6 +189,7 @@ class FrancaGenerator implements IGenerator {
             finalValue = FPreferences::instance.getPreference(res, PreferenceConstants::P_GENERATESTUB, finalValue)
             if (finalValue.equals(booleanTrue)) {
                 it.generateStub(fileSystemAccess, res)
+                it.generateServiceAbstract(fileSystemAccess, res)
             }
         ]
         

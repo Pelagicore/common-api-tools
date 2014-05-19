@@ -32,7 +32,7 @@ class FTypeCycleDetector {
         return tarjan(type)
     }
 
-    def dispatch hasCycle(List<FType> types) {
+    def dispatch boolean hasCycle(List<FType> types) {
         indices.clear()
         lowlink.clear()
         stack.clear()
@@ -40,7 +40,7 @@ class FTypeCycleDetector {
 
         val typeWithCycle = types.findFirst[type|!indices.containsKey(type) && tarjan(type)]
 
-        return typeWithCycle != null
+        return (typeWithCycle != null)
     }
 
     // Tarjan's Strongly Connected Components Algorithm

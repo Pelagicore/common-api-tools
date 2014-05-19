@@ -146,7 +146,9 @@ class FInterfaceGenerator {
     }
 
     def private hasSourceFile(FInterface fInterface) {
-        val hasTypeWithImplementation = fInterface.types.exists[hasImplementation]
-        return hasTypeWithImplementation
+    	// We want to keep it simple and not skip the generation of one file just because it contains nothing.
+    	return true
+//        val hasTypeWithImplementation = fInterface.types.exists[hasImplementation]
+//        return hasTypeWithImplementation
     }
 }

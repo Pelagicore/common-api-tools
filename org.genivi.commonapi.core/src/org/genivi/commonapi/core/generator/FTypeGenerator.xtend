@@ -192,7 +192,7 @@ class FTypeGenerator {
         return rhs.referencedTypes.contains(lhs)
     }
 
-    def private hasNoCircularDependencies(EList<FType> types) {
+    def private boolean hasNoCircularDependencies(EList<FType> types) {
         val cycleDetector = new FTypeCycleDetector(francaGeneratorExtensions)
         return !cycleDetector.hasCycle(types)
     }
