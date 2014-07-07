@@ -32,7 +32,7 @@ public class FPreferences {
     private FPreferences() {
         preferences = new HashMap<IResource, Map<String, String>>();
     }
-    
+
     public void resetPreferences(){
         preferences.clear();
     }
@@ -44,16 +44,47 @@ public class FPreferences {
         return instance;
     }
 
+    public void clidefPreferences(){
+        Map<String, String> map = new HashMap<String, String>();
+        if (preferences.get(null) == null) {
+            preferences.put(null, map);
+        }
+
+        if (!preferences.get(null).containsKey(PreferenceConstants.USEPROJECTSETTINGS)) {
+            map.put(PreferenceConstants.USEPROJECTSETTINGS, Boolean.FALSE.toString());
+        }
+        if (!preferences.get(null).containsKey(PreferenceConstants.P_OUTPUT_PROXIES)) {
+            map.put(PreferenceConstants.P_OUTPUT_PROXIES, PreferenceConstants.DEFAULT_OUTPUT);
+        }
+        if (!preferences.get(null).containsKey(PreferenceConstants.P_OUTPUT_STUBS)) {
+            map.put(PreferenceConstants.P_OUTPUT_STUBS, PreferenceConstants.DEFAULT_OUTPUT);
+        }
+        if (!preferences.get(null).containsKey(PreferenceConstants.P_LICENSE)) {
+            map.put(PreferenceConstants.P_LICENSE, PreferenceConstants.DEFAULT_LICENSE);
+        }
+        if (!preferences.get(null).containsKey(PreferenceConstants.P_GENERATESTUB)) {
+            map.put(PreferenceConstants.P_GENERATESTUB, Boolean.TRUE.toString());
+        }
+        if (!preferences.get(null).containsKey(PreferenceConstants.P_GENERATEPROXY)) {
+            map.put(PreferenceConstants.P_GENERATEPROXY, Boolean.TRUE.toString());
+        }
+        map.putAll(preferences.get(null));
+        preferences.put(null, map);
+    }
+
     public void addPreferences(IResource res) {
         Map<String, String> map = new HashMap<String, String>();
-        
+
         if (res != null) {
             try {
                 QualifiedName useProjectSettingsIdentifier = new QualifiedName(PreferenceConstants.PROJECT_PAGEID, PreferenceConstants.USEPROJECTSETTINGS);
                 map.put(PreferenceConstants.USEPROJECTSETTINGS, res.getPersistentProperty(useProjectSettingsIdentifier));
 
-                QualifiedName outputPathIdentifier = new QualifiedName(PreferenceConstants.PROJECT_PAGEID, PreferenceConstants.P_OUTPUT);
-                map.put(PreferenceConstants.P_OUTPUT, res.getPersistentProperty(outputPathIdentifier));
+                QualifiedName outputPathIdentifier = new QualifiedName(PreferenceConstants.PROJECT_PAGEID, PreferenceConstants.P_OUTPUT_PROXIES);
+                map.put(PreferenceConstants.P_OUTPUT_PROXIES, res.getPersistentProperty(outputPathIdentifier));
+
+                QualifiedName outputPathStubsIdentifier = new QualifiedName(PreferenceConstants.PROJECT_PAGEID, PreferenceConstants.P_OUTPUT_STUBS);
+                map.put(PreferenceConstants.P_OUTPUT_STUBS, res.getPersistentProperty(outputPathStubsIdentifier));
 
                 QualifiedName licenseIdentifier = new QualifiedName(PreferenceConstants.PROJECT_PAGEID, PreferenceConstants.P_LICENSE);
                 map.put(PreferenceConstants.P_LICENSE, res.getPersistentProperty(licenseIdentifier));
@@ -69,17 +100,7 @@ public class FPreferences {
             }
 
         } else {
-            if(!preferences.get(null).containsKey(PreferenceConstants.USEPROJECTSETTINGS))
-                map.put(PreferenceConstants.USEPROJECTSETTINGS, Boolean.FALSE.toString());
-            if(!preferences.get(null).containsKey(PreferenceConstants.P_OUTPUT))
-                map.put(PreferenceConstants.P_OUTPUT, PreferenceConstants.DEFAULT_OUTPUT);
-            if(!preferences.get(null).containsKey(PreferenceConstants.P_LICENSE))
-                map.put(PreferenceConstants.P_LICENSE, PreferenceConstants.DEFAULT_LICENSE);
-            if(!preferences.get(null).containsKey(PreferenceConstants.P_GENERATESTUB))
-                map.put(PreferenceConstants.P_GENERATESTUB, Boolean.TRUE.toString());
-            if(!preferences.get(null).containsKey(PreferenceConstants.P_GENERATEPROXY))
-                map.put(PreferenceConstants.P_GENERATEPROXY, Boolean.TRUE.toString());
-            map.putAll(preferences.get(null));
+            clidefPreferences();
         }
         preferences.put(res, map);
     }
@@ -156,8 +177,11 @@ public class FPreferences {
             }
             instance.preferences.get(project).put(PreferenceConstants.USEPROJECTSETTINGS, Boolean.toString(true));
 
-            String outputFolder = store.getString(PreferenceConstants.P_OUTPUT);
-            instance.preferences.get(project).put(PreferenceConstants.P_OUTPUT, outputFolder);
+            String outputFolderProxies = store.getString(PreferenceConstants.P_OUTPUT_PROXIES);
+            instance.preferences.get(project).put(PreferenceConstants.P_OUTPUT_PROXIES, outputFolderProxies);
+
+            String outputFolderStubs = store.getString(PreferenceConstants.P_OUTPUT_STUBS);
+            instance.preferences.get(project).put(PreferenceConstants.P_OUTPUT_STUBS, outputFolderStubs);
 
             String licenseHeader = store.getString(PreferenceConstants.P_LICENSE);
             instance.preferences.get(project).put(PreferenceConstants.P_LICENSE, licenseHeader);
@@ -171,8 +195,10 @@ public class FPreferences {
             if (instance.preferences.get(project) == null) {
                 instance.preferences.put(project, new HashMap<String, String>());
             }
-            instance.preferences.get(project).put(PreferenceConstants.P_OUTPUT,
-                    defaultstore.getString(PreferenceConstants.P_OUTPUT));
+            instance.preferences.get(project).put(PreferenceConstants.P_OUTPUT_PROXIES,
+                    defaultstore.getString(PreferenceConstants.P_OUTPUT_PROXIES));
+            instance.preferences.get(project).put(PreferenceConstants.P_OUTPUT_STUBS,
+                    defaultstore.getString(PreferenceConstants.P_OUTPUT_STUBS));
             instance.preferences.get(project).put(PreferenceConstants.P_LICENSE,
                     defaultstore.getString(PreferenceConstants.P_LICENSE));
             instance.preferences.get(project).put(PreferenceConstants.P_GENERATEPROXY,
@@ -181,5 +207,4 @@ public class FPreferences {
                     defaultstore.getString(PreferenceConstants.P_GENERATESTUB));
         }
     }
-
 }

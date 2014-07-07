@@ -1,4 +1,6 @@
+doc
 */bin
-*/src-gen
+*/doc-gen
 */xtend-gen
 .DS_Store
+*~
