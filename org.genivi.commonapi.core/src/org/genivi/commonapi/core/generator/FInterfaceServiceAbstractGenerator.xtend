@@ -47,14 +47,10 @@ class FInterfaceServiceAbstractGenerator {
         «fInterface.model.generateNamespaceBeginDeclaration»
 
         /**
-         * Provides a default implementation for «fInterface.stubRemoteEventClassName» and
-         * «fInterface.stubClassName». Method callbacks have an empty implementation,
-         * remote set calls on attributes will always change the value of the attribute
-         * to the one received.
-         *
-         * Override this stub if you only want to provide a subset of the functionality
-         * that would be defined for this service, and/or if you do not need any non-default
-         * behaviour.
+         * Provides an abstract implementation for «fInterface.stubClassName».
+         * That abstract class is suitable if your service ignores which client is interactng with it.
+         * All the methods and attribute getters/setters are pure virtual, which ensures that any change in the interface
+         * definition will likely cause a compile error in the service implementation.
          */
         class «fInterface.stubDefaultClassName» : public «fInterface.stubClassName» {
          public:
