@@ -252,7 +252,7 @@ class FrancaGenerator implements IGenerator
         }
     }
 
-    def private getAllReferencedFTypes(FModel fModel)
+    def getAllReferencedFTypes(FModel fModel)
     {
         val referencedFTypes = new HashSet<FType>
 

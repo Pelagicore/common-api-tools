@@ -58,7 +58,7 @@ class FInterfaceServiceAbstractGenerator {
                 «IF !fInterface.managedInterfaces.empty»
                     autoInstanceCounter_(0),
                 «ENDIF»
-                remoteEventHandler_(this) {
+                remoteEventHandler_(this), interfaceVersion_(«fInterface.elementName»::getInterfaceVersion()) {
         }
 
             «fInterface.stubRemoteEventClassName»* initStubAdapter(const std::shared_ptr<«fInterface.stubAdapterClassName»>& stubAdapter) {
@@ -187,6 +187,12 @@ class FInterfaceServiceAbstractGenerator {
             «IF !fInterface.managedInterfaces.empty»
                 uint32_t autoInstanceCounter_;
             «ENDIF»
+
+            CommonAPI::Version interfaceVersion_;
+
+            const CommonAPI::Version& getInterfaceVersion(std::shared_ptr<CommonAPI::ClientId> clientId) override {
+            	return interfaceVersion_;
+           	}
 
         };
 

@@ -10,7 +10,7 @@
 
 	<groupId>org.genivi.commonapi</groupId>
 	<artifactId>org.genivi.commonapi.core</artifactId>
-	<version>2.1.4.qualifier</version>
+	<version>2.1.6.qualifier</version>
 	<packaging>eclipse-plugin</packaging>
 
 	<build>
