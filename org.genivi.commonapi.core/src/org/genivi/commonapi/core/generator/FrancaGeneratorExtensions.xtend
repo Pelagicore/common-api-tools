@@ -999,6 +999,8 @@ class FrancaGeneratorExtensions {
 
     def getFrancaVersion() {
         val bundle = FrameworkUtil::getBundle(FrancaGeneratorExtensions)
+        if (bundle == null)
+	        return "Unknown";
         val bundleContext = bundle.getBundleContext();
         for (b : bundleContext.bundles) {
             if (b.symbolicName.equals("org.franca.core")) {
@@ -1009,6 +1011,8 @@ class FrancaGeneratorExtensions {
 
     def static getCoreVersion() {
         val bundle = FrameworkUtil::getBundle(FrancaGeneratorExtensions)
+        if (bundle == null)
+	        return "Unknown";
         val bundleContext = bundle.getBundleContext();
         for (b : bundleContext.bundles) {
             if (b.symbolicName.equals("org.genivi.commonapi.core")) {
